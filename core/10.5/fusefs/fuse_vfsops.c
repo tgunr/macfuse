@@ -669,6 +669,7 @@ fuse_vfsop_unmount(mount_t mp, int mntflags, vfs_context_t context)
 
     fuse_rootvp = data->rootvp;
 
+    IOLog("%s: Calling vflush(mp, fuse_rootvp, flags=0x%X);\n", __FUNCTION__, flags);
 #if M_MACFUSE_ENABLE_INTERIM_FSNODE_LOCK && !M_MACFUSE_ENABLE_HUGE_LOCK
     fuse_biglock_unlock(data->biglock);
 #endif
@@ -676,6 +677,7 @@ fuse_vfsop_unmount(mount_t mp, int mntflags, vfs_context_t context)
 #if M_MACFUSE_ENABLE_INTERIM_FSNODE_LOCK && !M_MACFUSE_ENABLE_HUGE_LOCK
     fuse_biglock_lock(data->biglock);
 #endif
+    IOLog("%s:   Done.\n", __FUNCTION__);
     if (err) {
 #if M_MACFUSE_ENABLE_INTERIM_FSNODE_LOCK && !M_MACFUSE_ENABLE_HUGE_LOCK
         fuse_biglock_unlock(data->biglock);
